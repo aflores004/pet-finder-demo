@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pets App</title>
+</head>
+<body>
+  <h1>Welcome to the Pets App</h1>
+
+  <!-- Display All Pets Button -->
+  <button onclick="displayAllPets()">Display All Pets</button>
+
+  <!-- Search by Pet Name -->
+  <label for="petName">Search by Pet Name:</label>
+  <input type="text" id="petName" placeholder="Enter pet name">
+  <button onclick="searchByPetName()">Search Pet</button>
+
+  <!-- Search by Owner Name -->
+  <label for="ownerName">Search by Owner Name:</label>
+  <input type="text" id="ownerName" placeholder="Enter owner name">
+  <button onclick="searchByOwnerName()">Search Owner</button>
+
+  <p id="searchResult"></p>
+
+  <script>
+    // Function to make API request to get all pets
+    function displayAllPets() {
+      fetch('/api/v1/pets')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('searchResult').innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+          document.getElementById('searchResult').innerText = `Error: ${error.message}`;
+        });
+    }
+
+    // Function to make API request to search by pet name
+    function searchByPetName() {
+      const petName = document.getElementById('petName').value;
+      fetch(`/api/v1/pets/${petName}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('searchResult').innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+          document.getElementById('searchResult').innerText = `Error: ${error.message}`;
+        });
+    }
+
+    // Function to make API request to search by owner name
+    function searchByOwnerName() {
+      const ownerName = document.getElementById('ownerName').value;
+      fetch(`/api/v1/pets/owner?owner=${ownerName}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('searchResult').innerText = JSON.stringify(data);
+        })
+        .catch(error => {
+          document.getElementById('searchResult').innerText = `Error: ${error.message}`;
+        });
+    }
+  </script>
+</body>
+</html>
